@@ -14,6 +14,10 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(w, h);
 document.body.appendChild(renderer.domElement);
 
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.03;
+
 const geometry = new THREE.BoxGeometry();
 const material = new THREE.MeshStandardMaterial({
   color: 0xffff00,
@@ -32,6 +36,7 @@ function animate() {
   cube.rotation.y += 0.02;
 
   renderer.render(scene, camera);
+  controls.update();
 }
 
 animate();
