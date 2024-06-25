@@ -5,7 +5,11 @@ uniform vec2 uFrequency;
 uniform float uTime;
 
 attribute vec3 position;
-attribute float aRandom; // custom attribute that we created in script.js
+attribute vec2 uv;
+
+varying vec2 vUv;
+
+//attribute float aRandom; // custom attribute that we created in script.js
 
 //varying float vRandom; // this we can use in fragment, we can't use attribute
 
@@ -46,6 +50,8 @@ void main()
   vec4 projectivePosition = projectionMatrix * viewPosition;
 
   gl_Position = projectivePosition;
+
+  vUv = uv;
 
   //vRandom = aRandom;
 
