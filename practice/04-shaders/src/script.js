@@ -42,6 +42,7 @@ const material = new THREE.RawShaderMaterial({
   fragmentShader: testFragmentShader,
   uniforms: {
     uFrequency: { value: new THREE.Vector2(10, 5) },
+    uTime: { value: 0 },
   },
 });
 
@@ -117,6 +118,9 @@ const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
+
+  // Update material
+  material.uniforms.uTime.value = elapsedTime;
 
   // Update controls
   controls.update();
