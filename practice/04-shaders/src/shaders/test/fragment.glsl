@@ -1,4 +1,4 @@
-precision mediump float;
+
 uniform vec3 uColor;
 uniform sampler2D uTexture; // sampler2D is type for textures
 
