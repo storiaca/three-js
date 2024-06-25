@@ -8,6 +8,7 @@ attribute vec3 position;
 attribute vec2 uv;
 
 varying vec2 vUv;
+varying float vElevation;
 
 //attribute float aRandom; // custom attribute that we created in script.js
 
@@ -37,8 +38,12 @@ void main()
   // float bar4 = foo2.w; // 4.0
 
   vec4 modelPosition = modelMatrix * vec4(position, 1.0);
-  modelPosition.z += sin(modelPosition.x * uFrequency.x - uTime) * 0.1;
-  modelPosition.z += sin(modelPosition.y * uFrequency.y - uTime) * 0.1;
+  float elevation = sin(modelPosition.x * uFrequency.x - uTime) * 0.1;
+  elevation += sin(modelPosition.y * uFrequency.y - uTime) * 0.1;
+
+  modelPosition.z += elevation;
+  
+  
 
   // modelPosition.z += aRandom * 0.1; 
 
@@ -52,6 +57,7 @@ void main()
   gl_Position = projectivePosition;
 
   vUv = uv;
+  vElevation = elevation;
 
   //vRandom = aRandom;
 
