@@ -45,3 +45,7 @@ The book of shaders mainly focus on fragment shaders and has nothing to do with 
 ## Coordinate systems
 
 https://learnopengl.com/Getting-started/Coordinate-Systems
+
+## GLSL Noise
+
+https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83
