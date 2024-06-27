@@ -294,6 +294,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 const shaderGeometry = new THREE.PlaneGeometry(10, 10, 256, 256);
 
 const shaderMaterial = new THREE.ShaderMaterial({
+  precision: "lowp",
   uniforms: {
     uDisplacementTexture: { value: displacementTexture },
     uDisplacementStrength: { value: 1.5 },
@@ -309,12 +310,14 @@ const shaderMaterial = new THREE.ShaderMaterial({
             vec4 modelPosition = modelMatrix * vec4(position, 1.0);
 
             float elevation = texture2D(uDisplacementTexture, uv).r;
-            if(elevation < 0.5)
-            {
-                elevation = 0.5;
-            }
+            // elevation = clamp(elevation, 0.5, 1.0);
 
-            modelPosition.y += elevation * uDisplacementStrength;
+            // if(elevation < 0.5)
+            // {
+            //     elevation = 0.5;
+            // }
+
+            modelPosition.y += max(elevation, 0.5) * uDisplacementStrength;
 
             gl_Position = projectionMatrix * viewMatrix * modelPosition;
 
@@ -329,17 +332,21 @@ const shaderMaterial = new THREE.ShaderMaterial({
         void main()
         {
             float elevation = texture2D(uDisplacementTexture, vUv).r;
-            if(elevation < 0.25)
-            {
-                elevation = 0.25;
-            }
+            elevation = max(elevation, 0.25);
+            // if(elevation < 0.25)
+            // {
+            //     elevation = 0.25;
+            // }
 
             vec3 depthColor = vec3(1.0, 0.1, 0.1);
             vec3 surfaceColor = vec3(0.1, 0.0, 0.5);
-            vec3 finalColor = vec3(0.0);
-            finalColor.r += depthColor.r + (surfaceColor.r - depthColor.r) * elevation;
-            finalColor.g += depthColor.g + (surfaceColor.g - depthColor.g) * elevation;
-            finalColor.b += depthColor.b + (surfaceColor.b - depthColor.b) * elevation;
+            // vec3 finalColor = vec3(0.0);
+            // finalColor.r += depthColor.r + (surfaceColor.r - depthColor.r) * elevation;
+            // finalColor.g += depthColor.g + (surfaceColor.g - depthColor.g) * elevation;
+            // finalColor.b += depthColor.b + (surfaceColor.b - depthColor.b) * elevation;
+            
+            vec3 finalColor = mix(depthColor, surfaceColor, elevation);
+
 
             gl_FragColor = vec4(finalColor, 1.0);
         }
